@@ -25,6 +25,7 @@ body,.drop-zone{
     border: 2px dashed var(--border-color);
     margin: 30px;
     border-radius:10px;
+    transition: all 200ms;
 }
 
 
@@ -67,4 +68,18 @@ transition: transform 250ms ease-in-out;
 
 .dragged .icon-container .center{
 transform: translateY(-5px)
+}
+
+.dragged.drop-zone{
+    background-color: var(--main-bg-color);
+    border-color: blue;
+}
+
+#fileInput{
+    display: none;
+}
+
+.browsebtn{
+    color: blue;
+    cursor: pointer;
 }
