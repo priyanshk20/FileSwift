@@ -1,6 +1,10 @@
 const dropZone = document.querySelector('.drop-zone');
 const fileInput = document.getElementById('fileInput');
 const browseBtn = document.querySelector('.browsebtn');
+const progressBar = document.querySelector('.bg-progress');
+const progressLine = document.querySelector('.progress-line');
+const progressContainer  = document.querySelector('.progress-container');
+const progressPercent = document.querySelector('.percentage-container');
 const host = "https://innshare.herokuapp.com";
 const uploadURL = `${host}/api/files`;
 
@@ -38,6 +42,7 @@ fileInput.addEventListener('change',()=> {
 })
 
 const uploadFile = () => {
+progressContainer.style.display = "block";
 file = fileInput.files[0];
 const formData = new FormData();
 formData.append("myfile", file);
@@ -45,8 +50,22 @@ const req = new XMLHttpRequest();
 req.onreadystatechange = () => {
 if(req.readyState === XMLHttpRequest.DONE){
     console.log(req.responseText);
+    showLink(JSON.parse(req.responseText));
 }
 }
+
+req.upload.onprogress = updateProgress;
 req.open("POST",uploadURL);
 req.send(formData);
+}
+
+const updateProgress = (e) => {
+const percentage = Math.round((e.loaded/e.total)*100);
+progressBar.style.width = `${percentage}%`
+progressPercent.innerText = `${percentage}%`
+progressLine.style.transform = `scaleX(${percentage/100})`
+}
+
+const showLink = ({file}) => {
+console.log(file)
 }
